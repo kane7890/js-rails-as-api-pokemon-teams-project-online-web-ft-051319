@@ -11,6 +11,8 @@ let mainSection = document.querySelector('main')
 function renderTrainer(trainer)
   {
     let ul=document.createElement('ul');
+    ul.setAttribute('id', `ul-for-${trainer.id}`)
+
     let p = document.createElement('p')
     p.innerText = `${trainer.name}`
     let addBtn = document.createElement('button');
@@ -18,9 +20,9 @@ function renderTrainer(trainer)
     addBtn.innerText = "Add Pokemon"
     addBtn.addEventListener ('click', event => {
     event.preventDefault()
-    pokemon = addPokemon(trainer.id)
-    console.log(pokemon)
-    location.reload()
+    addPokemon(trainer.id)
+
+    // location.reload()
     // renderPokemon(ul, pokemon)
     })
 
@@ -97,6 +99,7 @@ get team information for each team / trainer
 
 }
 function addPokemon(trainerId) {
+  let trainerUl = document.querySelector(`#ul-for-${trainerId}`)
   var fetchObject = {
     method: "POST",
     headers: {
@@ -109,9 +112,11 @@ function addPokemon(trainerId) {
 
   }
 
-  return (fetch(POKEMONS_URL, fetchObject)
+  fetch(POKEMONS_URL, fetchObject)
     .then (resp => resp.json())
-    .then (json => JSON.stringify(json)))
+    .then (resp => renderPokemon(trainerUl, resp))
+
+
 
 
 }
